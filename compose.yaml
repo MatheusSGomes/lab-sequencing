@@ -1,0 +1,15 @@
+services:
+  postgres_sequencing:
+    container_name: postgres_sequencing
+    image: bitnami/postgresql:latest
+    ports:
+      - '5000:5432'
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=sequencing
+    volumes:
+      - sequencing_pg_data:/bitnami/postgresql
+
+volumes:
+  sequencing_pg_data:
