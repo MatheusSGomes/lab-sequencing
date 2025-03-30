@@ -1,6 +1,6 @@
 // Docs: https://dbml.dbdiagram.io/docs
 
-Table sequence {
+Table tracking {
   id int [pk, not null, increment]
   tracking_id int [not null, note: "DEFAULT nextval('tracking_id_seq')"]
   order_id int [null]
