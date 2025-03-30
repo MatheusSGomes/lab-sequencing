@@ -6,7 +6,7 @@ import { getAllTrackings } from './repository.js';
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
+app.get('get_all_trackings', (req, res) => {
     const trackings = getAllTrackings();
     res.send(trackings)
 })
