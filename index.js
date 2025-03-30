@@ -1,10 +1,11 @@
-const express = require('express');
-require("dotenv").config();
+import express from 'express';
+import 'dotenv/config'
+import { connect } from './connection.js';
 
 const app = express()
 const port = 3000
 
-console.log(process.env.CONNECTION_STRING);
+connect();
 
 // bootstrap
 // const sql = `
