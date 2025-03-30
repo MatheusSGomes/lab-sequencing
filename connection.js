@@ -7,7 +7,7 @@ export async function connect() {
     const pool = new Pool(databaseConfig);
 
     const client = await pool.connect();
-    console.log("Criou pool de conexões no PostgreSQL!");
+    console.log("Pool de conexões criado com sucesso!");
 
     const res = await client.query('SELECT NOW()');
     console.log(res.rows[0]);
@@ -15,4 +15,24 @@ export async function connect() {
 
     global.connection = pool;
     return pool.connect();
+}
+
+async function createTableTracking() {
+    const client = await connect();
+    const sql = `
+        CREATE TABLE IF NOT EXISTS tracking (
+            id SERIAL PRIMARY KEY,
+            tracking_id VARCHAR(255) NULL,
+            order_id INT NULL,
+            freightcarrier_id INT NULL,
+            status VARCHAR(50) NOT NULL DEFAULT 'Em trânsito',
+            shipping_date TIMESTAMP DEFAULT NOW()
+        );
+    `;
+    const res = await client.query(sql);
+    return res.rows;
+}
+
+export async function startConnectionDatabase() {
+    createTableTracking();
 }
