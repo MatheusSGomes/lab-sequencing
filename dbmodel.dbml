@@ -1,12 +1,23 @@
 // Docs: https://dbml.dbdiagram.io/docs
 
-Table tracking {
+Project sequence {
+  database_type: 'PostgreSQL'
+  Note: 'Descrição das tabelas do projeto'
+}
+
+enum tracking_status {
+  "Pedido recebido" [note: 'Aguardando para ser processado']
+  "Em trânsito"
+  "Entregue"
+}
+
+Table sequencing.tracking [note: 'Tabela única, sem relacionamentos'] {
   id int [pk, not null, increment]
-  tracking_id int [not null, note: "DEFAULT nextval('tracking_id_seq')"]
+  tracking_id int [not null, unique, note: "DEFAULT nextval('tracking_id_seq')"]
   order_id int [null]
   freightcarrier_id int [null]
-  status varchar(50) [not null, default: 'Em trânsito']
-  shipping_date timestamp [default: 'NOW()']
+  status tracking_status [not null, default: 'Em trânsito']
+  shipping_date timestamp [default: `NOW()`]
 }
 
 
@@ -42,10 +53,17 @@ Table tracking {
 // Table categories {
 //   id integer [pk, increment]
 //   title varchar [not null]
+//    Note {
+//      'This is a note of this table'
+//    }
 // }
 
 // Ref user_posts: posts.user_id > users.id // many-to-one
 
 // Ref: users.id < follows.following_user_id
 
-// Ref: users.id < follows.followed_user_id
+// Ref: users.id < follows.followed_user_id [delete: cascade, update: no action, color: #79AD51]
+
+// Ref {
+//    users.id < follows.followed_user_id [delete: cascade, update: no action, color: #79AD51]
+// }
