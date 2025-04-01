@@ -1,19 +1,29 @@
 import express from 'express';
 import 'dotenv/config'
 import { startConnectionDatabase } from './connection.js';
-import { getAllTrackings } from './repository.js';
+import { getAllTrackings, initTracking } from './repository.js';
 
 const app = express()
 const port = 3000
 
-app.get('/get_all_trackings', (req, res) => {
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.listen(port, () => {
+    startConnectionDatabase();
+    console.log(`Listening on port ${port}`)
+})
+
+app.get('/trackings', (req, res) => {
     const trackings = getAllTrackings();
     res.send(trackings)
 })
 
-app.listen(port, () => {
-    startConnectionDatabase();
-    console.log(`Listening on port ${port}`)
+app.post('/tracking', (req, res) => {
+    const orderId = req.body.order_id;
+    const freightcarrierId = req.body.freightcarrier_id;
+
+    initTracking(orderId, freightcarrierId);
+    res.send('Created tracking');
 })
 
 // Regras
