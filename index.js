@@ -14,8 +14,8 @@ app.listen(port, () => {
 })
 
 app.get('/trackings', (req, res) => {
-    const trackings = getAllTrackings();
-    res.send(trackings)
+    getAllTrackings().then(trackings =>
+        res.send(trackings));
 })
 
 app.post('/tracking', (req, res) => {
