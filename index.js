@@ -22,8 +22,10 @@ app.post('/tracking', (req, res) => {
     const orderId = req.body.order_id;
     const freightcarrierId = req.body.freightcarrier_id;
 
-    initTracking(orderId, freightcarrierId);
-    res.send('Created tracking');
+    initTracking(orderId, freightcarrierId).then(insert =>{
+        if (insert.rowCount >= 1)
+            return res.send('Created tracking')
+    });
 })
 
 // Regras
