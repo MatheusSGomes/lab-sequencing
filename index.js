@@ -1,7 +1,8 @@
 import express from 'express';
 import 'dotenv/config'
 import { startConnectionDatabase } from './connection.js';
-import { getAllTrackings, getTrackingByOrder, initTracking, updateStatusTracking } from './repository.js';
+import { generateTracking, getAllTrackings, getTrackingByOrder, initTracking, updateStatusTracking } from './repository.js';
+import { v4 as uuidv4 } from 'uuid';
 
 const app = express()
 const port = 3000
@@ -36,6 +37,14 @@ app.post('/trackings', (req, res) => {
         }
     }).catch(console.log);
 });
+
+app.post('/generate-trackings', (req, res) => {
+    // Verifico quantos trackings id existem
+    // Caso esteja abaixo de 200, calculo um número para chegar até 200 e gero os inserts (transactions)
+    const tracking_id = uuidv4();
+    generateTracking(tracking_id).then(tracking =>
+        res.send(`Trackings generated`)).catch(console.log);
+})
 
 app.put('/delivered', (req, res) => {
     const tracking_id = req.body.tracking_id;
