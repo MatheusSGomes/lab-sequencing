@@ -38,8 +38,8 @@ app.post('/trackings', (req, res) => {
 });
 
 app.put('/delivered', (req, res) => {
-    const tracking_id = req.body.tracking_id
-    const status = 'Entregue'
+    const tracking_id = req.body.tracking_id;
+    const status = 'Entregue';
 
     updateStatusTracking(status, tracking_id).then(tracking =>
         res.send('Tracking update to delivered')).catch(console.log)
