@@ -25,7 +25,7 @@ async function createTableTracking() {
             tracking_id VARCHAR(255) NULL,
             order_id INT NULL,
             freightcarrier_id INT NULL,
-            status VARCHAR(50) NOT NULL DEFAULT 'Em trânsito',
+            status VARCHAR(50) NOT NULL DEFAULT 'Não atribuído',
             shipping_date TIMESTAMP DEFAULT NOW()
         );
     `;
