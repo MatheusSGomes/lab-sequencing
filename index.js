@@ -11,14 +11,14 @@ app.use(express.urlencoded({ extended: true }));
 app.listen(port, () => {
     startConnectionDatabase();
     console.log(`Listening on port ${port}`)
-})
+});
 
 app.get('/trackings', (req, res) => {
     getAllTrackings().then(trackings =>
         res.send(trackings));
-})
+});
 
-app.post('/tracking', (req, res) => {
+app.post('/trackings', (req, res) => {
     const orderId = req.body.order_id;
     const freightcarrierId = req.body.freightcarrier_id;
 
@@ -35,7 +35,16 @@ app.post('/tracking', (req, res) => {
             process.exit();
         }
     }).catch(console.log);
-})
+});
+
+app.put('/delivered', (req, res) => {
+    const tracking_id = req.body.tracking_id
+    const status = 'Entregue'
+    const shipping_date = new Date();
+
+    console.log(shipping_date);
+    res.send('Tracking update to delivered')
+});
 
 // Regras
 // tracking_id será UUID gerado pela própria aplicação
@@ -59,7 +68,7 @@ app.post('/tracking', (req, res) => {
 //     freightcarrier_id
 // }
 
-// Post chageTrackingStatus {
+// Put chageTrackingStatus {
 //     tracking_id
 //     status // de 'Em transito' para 'Entregue'
 //     shipping_date // Atualiza para a data da entrega
