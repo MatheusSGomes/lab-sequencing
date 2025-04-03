@@ -1,7 +1,7 @@
 import express from 'express';
 import 'dotenv/config'
 import { startConnectionDatabase } from './connection.js';
-import { getAllTrackings, getTrackingByOrder, initTracking } from './repository.js';
+import { getAllTrackings, getTrackingByOrder, initTracking, updateStatusTracking } from './repository.js';
 
 const app = express()
 const port = 3000
@@ -40,10 +40,9 @@ app.post('/trackings', (req, res) => {
 app.put('/delivered', (req, res) => {
     const tracking_id = req.body.tracking_id
     const status = 'Entregue'
-    const shipping_date = new Date();
 
-    console.log(shipping_date);
-    res.send('Tracking update to delivered')
+    updateStatusTracking(status, tracking_id).then(tracking =>
+        res.send('Tracking update to delivered')).catch(console.log)
 });
 
 // Regras

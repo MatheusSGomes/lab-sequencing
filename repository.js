@@ -19,3 +19,11 @@ export async function initTracking(order_id, freightcarrier_id) {
     const values = [order_id, freightcarrier_id];
     return await client.query(sql, values);
 }
+
+export async function updateStatusTracking(new_status, tracking_id) {
+    const client = await connect();
+    const shipping_date = new Date();
+    const sql = 'UPDATE tracking SET status = $1, shipping_date = $2 WHERE tracking_id = $3;';
+    const values = [new_status, shipping_date, tracking_id]
+    return await client.query(sql, values);
+}
