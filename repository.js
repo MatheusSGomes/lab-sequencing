@@ -6,6 +6,13 @@ export async function getAllTrackings() {
     return res.rows;
 }
 
+export async function getTrackingByOrder(order_id) {
+    const client = await connect();
+    const sql = 'SELECT * FROM tracking WHERE order_id = $1;';
+    const res = await client.query(sql, [order_id]);
+    return res.rows;
+}
+
 export async function initTracking(order_id, freightcarrier_id) {
     const client = await connect();
     const sql = 'INSERT INTO tracking(order_id, freightcarrier_id) VALUES($1, $2)';

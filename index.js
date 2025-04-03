@@ -1,7 +1,7 @@
 import express from 'express';
 import 'dotenv/config'
 import { startConnectionDatabase } from './connection.js';
-import { getAllTrackings, initTracking } from './repository.js';
+import { getAllTrackings, getTrackingByOrder, initTracking } from './repository.js';
 
 const app = express()
 const port = 3000
@@ -22,10 +22,19 @@ app.post('/tracking', (req, res) => {
     const orderId = req.body.order_id;
     const freightcarrierId = req.body.freightcarrier_id;
 
+    getTrackingByOrder(orderId).then(order => {
+        if (order.length) {
+            res.send('Order already tracking');
+            process.exit();
+        }
+    }).catch(console.log);
+
     initTracking(orderId, freightcarrierId).then(insert =>{
-        if (insert.rowCount >= 1)
-            return res.send('Created tracking')
-    });
+        if (insert.rowCount >= 1){
+            res.send('Created tracking');
+            process.exit();
+        }
+    }).catch(console.log);
 })
 
 // Regras
