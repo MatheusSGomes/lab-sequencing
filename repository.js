@@ -21,6 +21,13 @@ export async function initTracking(order_id, freightcarrier_id) {
     return await client.query(sql, values);
 }
 
+export async function getNumberOfTrackingsUnassigned() {
+    const client = await connect();
+    const sql = 'SELECT count(1) FROM tracking WHERE tracking_id IS NOT NULL AND status = $1';
+    const values = ['Não atribuído'];
+    return await client.query(sql, values);
+}
+
 export async function generateTracking(tracking_id) {
     const client = await connect();
     const sql = 'INSERT INTO tracking(tracking_id) VALUES($1)';
