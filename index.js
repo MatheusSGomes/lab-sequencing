@@ -10,13 +10,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.listen(port, () => {
     startConnectionDatabase();
-    console.log(`Listening on port ${port}`)
+    console.log(`Listening on port ${port}`);
 });
 
-app.get('/trackings', (req, res) => {
+app.get('/trackings', (req, res) =>
     getAllTrackings().then(trackings =>
-        res.send(trackings));
-});
+        res.send(trackings))
+);
 
 app.post('/trackings', (req, res) => {
     const orderId = req.body.order_id;
@@ -43,8 +43,6 @@ app.post('/generate-trackings', (req, res) => {
     getNumberOfTrackingsUnassigned().then(number => {
         const numTrackingsUnassigned = number.rows[0].count;
 
-        console.log(numTrackingsUnassigned);
-
         if (numTrackingsUnassigned <= 200) {
             const numberToGenerate =
                 (desiredNumberGenerateTrackingsIds - numTrackingsUnassigned);
@@ -55,7 +53,7 @@ app.post('/generate-trackings', (req, res) => {
         }
 
         return desiredNumberGenerateTrackingsIds;
-    }).then(x => {
+    }).then(() =>
 
         // TODO: Verificar se o UUID gerado já não existe no banco.
 
@@ -73,13 +71,11 @@ app.post('/generate-trackings', (req, res) => {
         // }
 
         generateTrackings(desiredNumberGenerateTrackingsIds).then(() =>
-                res.send(`Trackings generated`));
-    }).catch(console.log);
+                res.send(`Trackings generated`))
+    ).catch(console.log);
 });
 
 
-// "Pedido recebido"
-// "Em trânsito"
 app.put('/order/received', (req, res) => {
     const tracking_id = req.body.tracking_id;
     const status = 'Recebido';
