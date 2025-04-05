@@ -1,4 +1,5 @@
 import { connect } from "./connection.js";
+import { v4 as uuidv4 } from 'uuid';
 
 export async function getAllTrackings() {
     const client = await connect();
@@ -27,11 +28,24 @@ export async function getNumberOfTrackingsUnassigned() {
     return await client.query(sql, values);
 }
 
-export async function generateTracking(tracking_id) {
+export async function generateTrackings(number_of) {
     const client = await connect();
-    const sql = 'INSERT INTO tracking(tracking_id, status) VALUES($1, $2)';
-    const values = [tracking_id, 'Não atribuído'];
-    return await client.query(sql, values);
+
+    await client.query('BEGIN');
+    try {
+        for (let index = 0; index < number_of; index++) {
+            const tracking_id = uuidv4();
+            const sql = 'INSERT INTO tracking(tracking_id, status) VALUES($1, $2)';
+            const values = [tracking_id, 'Não atribuído'];
+            await client.query(sql, values);
+        }
+        await client.query('COMMIT');
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.log(error);
+    } finally {
+        client.release();
+    }
 }
 
 export async function updateStatusTracking(new_status, tracking_id) {
