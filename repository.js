@@ -31,8 +31,8 @@ export async function getNumberOfTrackingsUnassigned() {
 export async function generateTrackings(number_of) {
     const client = await connect();
 
-    await client.query('BEGIN');
     try {
+        await client.query('BEGIN');
         for (let index = 0; index < number_of; index++) {
             const tracking_id = uuidv4();
             const sql = 'INSERT INTO tracking(tracking_id, status) VALUES($1, $2)';

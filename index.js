@@ -38,17 +38,25 @@ app.post('/trackings', (req, res) => {
 });
 
 app.post('/generate-trackings', (req, res) => {
-    const number_of = 200;
-    // Verifico quantos trackings id existem
-    const numberTrackingsUnassigned = getNumberOfTrackingsUnassigned();
+    let desiredNumberUnassignedTrackingsIds = 200;
 
-    numberTrackingsUnassigned.then(number => {
+    getNumberOfTrackingsUnassigned().then(number => {
         const numTrackingsUnassigned = number.rows[0].count;
-        res.send(numTrackingsUnassigned);
+
+        console.log(numTrackingsUnassigned);
+
+        if (numTrackingsUnassigned < 200) {
+            const numberToGenerate =
+                (desiredNumberUnassignedTrackingsIds - numTrackingsUnassigned);
+
+            desiredNumberUnassignedTrackingsIds = numberToGenerate;
+        } else {
+            desiredNumberUnassignedTrackingsIds = 0;
+        }
     });
 
     // Caso esteja abaixo de 200, calculo um número para chegar até 200 e gero os inserts (transactions)
-    generateTrackings(number_of).then(() =>
+    generateTrackings(desiredNumberUnassignedTrackingsIds).then(() =>
         res.send(`Trackings generated`)).catch(console.log);
 })
 
