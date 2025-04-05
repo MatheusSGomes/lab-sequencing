@@ -80,7 +80,13 @@ app.post('/generate-trackings', (req, res) => {
 
 // "Pedido recebido"
 // "Em trânsito"
-app.put('/order/received', (req, res) => {});
+app.put('/order/received', (req, res) => {
+    const tracking_id = req.body.tracking_id;
+    const status = 'Recebido';
+
+    updateStatusTracking(status, tracking_id).then(tracking =>
+        res.send('Tracking update to in transit')).catch(console.log)
+});
 
 app.put('/order/transit', (req, res) => {
     const tracking_id = req.body.tracking_id;
