@@ -56,12 +56,35 @@ app.post('/generate-trackings', (req, res) => {
 
         return desiredNumberGenerateTrackingsIds;
     }).then(x => {
+
+        // TODO: Verificar se o UUID gerado já não existe no banco.
+
+        // TODO: Passar transaction para fora da Repository
+        // Exemplo:
+        // try {
+        //      repository.beginTransaction()
+        //      for (numberOf) {
+        //          // VERIFICA SE O UUID JÁ EXISTE NO BANCO
+        //          repository.generateTrackings(uuid)
+        //      }
+        //      repository.commitTransaction()
+        // } catch (error) {
+        //      repository.rollbackTransaction()
+        // }
+
         generateTrackings(desiredNumberGenerateTrackingsIds).then(() =>
                 res.send(`Trackings generated`));
     }).catch(console.log);
 });
 
-app.put('/delivered', (req, res) => {
+
+// "Pedido recebido"
+// "Em trânsito"
+app.put('/order/received', (req, res) => {});
+
+app.put('/order/transit', (req, res) => {});
+
+app.put('/order/delivered', (req, res) => {
     const tracking_id = req.body.tracking_id;
     const status = 'Entregue';
 
