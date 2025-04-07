@@ -99,23 +99,3 @@ app.put('/order/delivered', (req, res) => {
     updateStatusTracking(status, tracking_id).then(tracking =>
         res.send('Tracking update to delivered')).catch(console.log)
 });
-
-// API Design
-// Get getTracking {
-//     tracking_id
-//     order_id
-//     freightcarrier_id
-//     status
-//     shipping_date
-// }
-
-// Post initTracking {
-//     order_id
-//     freightcarrier_id
-// }
-
-// Put chageTrackingStatus {
-//     tracking_id
-//     status // de 'Em transito' para 'Entregue'
-//     shipping_date // Atualiza para a data da entrega
-// }
