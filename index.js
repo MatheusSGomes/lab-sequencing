@@ -3,6 +3,7 @@ import 'dotenv/config'
 import { startConnectionDatabase } from './connection.js';
 import { generateTrackings, getAllTrackings, getNumberOfTrackingsUnassigned, getTrackingByOrder, initTracking, updateStatusTracking } from './repository.js';
 import router from './routes/routes/tracking.routes.js';
+import orderRouter from './routes/routes/order.routes.js';
 
 const app = express()
 const port = 3000
@@ -19,6 +20,7 @@ app.listen(port, () => {
 app.get('/health', (req, res) => res.send('OK'));
 
 app.use('/tracking', router);
+app.use('/order', orderRouter);
 
 app.post('/assign-tracking', (req, res) => {
     const orderId = req.body.order_id;
@@ -77,14 +79,6 @@ app.post('/generate-trackings', (req, res) => {
     ).catch(console.log);
 });
 
-
-app.put('/order/received', (req, res) => {
-    const tracking_id = req.body.tracking_id;
-    const status = 'Recebido';
-
-    updateStatusTracking(status, tracking_id).then(tracking =>
-        res.send('Tracking update to in transit')).catch(console.log)
-});
 
 app.put('/order/transit', (req, res) => {
     const tracking_id = req.body.tracking_id;
