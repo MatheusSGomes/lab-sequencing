@@ -94,8 +94,9 @@ docker-compose logs -f
 ## 📌 Endpoints Disponíveis
 
 | Método | Rota                    | Descrição                                      |
-|--------|-------------------------|-----------------------------------------------|
+|--------|-------------------------|------------------------------------------------|
 | POST   | `/assign-tracking`      | Recebe `order_id` e `freightcarrier_id`, e atribui um `tracking_id` livre |
+| GET    | `/trackings`            | Retorna todos os registros                     |
 | GET    | `/health`               | Verifica se o microserviço está funcionando    |
 | GET    | `/available-trackings`  | Retorna lista de tracking_ids disponíveis      |
 

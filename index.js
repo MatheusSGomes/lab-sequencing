@@ -18,7 +18,7 @@ app.get('/trackings', (req, res) =>
         res.send(trackings))
 );
 
-app.post('/trackings', (req, res) => {
+app.post('/assign-tracking ', (req, res) => {
     const orderId = req.body.order_id;
     const freightcarrierId = req.body.freightcarrier_id;
 
