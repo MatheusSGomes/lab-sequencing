@@ -7,6 +7,12 @@ export async function getAllTrackings() {
     return res.rows;
 }
 
+export async function getAvailableTrackings() {
+    const client = await connect();
+    const res = await client.query('SELECT * FROM tracking WHERE order_id IS NOT NULL AND freightcarrier_id IS NOT NULL;')
+    return res.rows;
+}
+
 export async function getTrackingByOrder(order_id) {
     const client = await connect();
     const sql = 'SELECT * FROM tracking WHERE order_id = $1;';
