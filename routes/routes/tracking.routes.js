@@ -1,15 +1,34 @@
 import { Router } from "express";
-import { getAllTrackings, getAvailableTrackings } from "../../repository.js";
+import { getAllTrackings, getAvailableTrackings, getTrackingByOrder, initTracking  } from "../../repository.js";
 
-const router = Router();
+const trackingRouter = Router();
 
-router.get('/all', (req, res) =>
+trackingRouter.get('/all', (req, res) =>
     getAllTrackings().then(trackings =>
         res.send(trackings))
 );
 
-router.get('/available', (req, res) => {
+trackingRouter.get('/available', (req, res) => {
     getAvailableTrackings().then(trackings => res.send(trackings));
 });
 
-export default router;
+trackingRouter.post('/assign', (req, res) => {
+    const orderId = req.body.order_id;
+    const freightcarrierId = req.body.freightcarrier_id;
+
+    getTrackingByOrder(orderId).then(order => {
+        if (order.length) {
+            res.send('Order already tracking');
+            process.exit();
+        }
+    }).catch(console.log);
+
+    initTracking(orderId, freightcarrierId).then(insert =>{
+        if (insert.rowCount >= 1){
+            res.send('Created tracking');
+            process.exit();
+        }
+    }).catch(console.log);
+});
+
+export default trackingRouter;
