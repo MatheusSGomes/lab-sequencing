@@ -100,14 +100,6 @@ app.put('/order/delivered', (req, res) => {
         res.send('Tracking update to delivered')).catch(console.log)
 });
 
-// Regras
-// tracking_id será UUID gerado pela própria aplicação
-// o sistema ficará sendo executado através de uma cron
-// o sistema gerará um número determinado de tracking_id's ex: 200. Eles vão fica aguardando uso.
-// quando esse número for menor que o esperado livre 200, a cron irá executar no horário esperado e gerar mais 200 tracking id's.
-// caso já tenha 200 tracking id's não gera
-// caso tenha menos de 200, ele gera até chegar em 200. Ex: 150 tracking id's sem uso, o sistema gera 50 para completar 200.
-
 // API Design
 // Get getTracking {
 //     tracking_id
