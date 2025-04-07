@@ -7,18 +7,22 @@ const app = express()
 const port = 3000
 
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
+
 app.listen(port, () => {
     startConnectionDatabase();
     console.log(`Listening on port ${port}`);
 });
+
+app.get('/health', (req, res) => res.send('OK'));
 
 app.get('/trackings', (req, res) =>
     getAllTrackings().then(trackings =>
         res.send(trackings))
 );
 
-app.post('/assign-tracking ', (req, res) => {
+app.post('/assign-tracking', (req, res) => {
     const orderId = req.body.order_id;
     const freightcarrierId = req.body.freightcarrier_id;
 
