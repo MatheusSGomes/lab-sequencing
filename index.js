@@ -2,6 +2,7 @@ import express from 'express';
 import 'dotenv/config'
 import { startConnectionDatabase } from './connection.js';
 import { generateTrackings, getAllTrackings, getNumberOfTrackingsUnassigned, getTrackingByOrder, initTracking, updateStatusTracking } from './repository.js';
+import router from './routes/routes/tracking.routes.js';
 
 const app = express()
 const port = 3000
@@ -17,10 +18,7 @@ app.listen(port, () => {
 
 app.get('/health', (req, res) => res.send('OK'));
 
-app.get('/trackings', (req, res) =>
-    getAllTrackings().then(trackings =>
-        res.send(trackings))
-);
+app.use('/tracking', router);
 
 app.post('/assign-tracking', (req, res) => {
     const orderId = req.body.order_id;
