@@ -6,15 +6,14 @@ import orderRouter from './src/routes/order.routes.js';
 import routerGenerateTrackings from './src/cron/generate-trackings.js';
 
 const app = express()
-const port = 3000
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
     startConnectionDatabase();
-    console.log(`Listening on port ${port}`);
+    console.log(`Listening on port ${process.env.PORT}`);
 });
 
 app.get('/health', (req, res) => res.send('OK'));
