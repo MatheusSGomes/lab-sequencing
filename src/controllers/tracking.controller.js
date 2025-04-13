@@ -53,12 +53,12 @@ export async function generateTrackingsIdsController(req, res) {
                 (desiredNumberGenerateTrackingsIds - numTrackingsUnassigned);
 
             desiredNumberGenerateTrackingsIds = numberToGenerate;
+            await generateTrackings(desiredNumberGenerateTrackingsIds);
+            res.send(`Trackings generated`);
         } else {
             desiredNumberGenerateTrackingsIds = 0;
+            res.send(`No trackings need to generate`);
         }
-
-        await generateTrackings(desiredNumberGenerateTrackingsIds);
-        res.send(`Trackings generated`)
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: "Erro ao buscar gerar novos trackings ids" })
