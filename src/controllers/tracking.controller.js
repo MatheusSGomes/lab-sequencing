@@ -16,6 +16,27 @@ export async function getAvailableTrackingsController(req, res) {
         res.status(200).json(result);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Erro ao buscar trackings id disponívveeis" })
+        res.status(500).json({ error: "Erro ao buscar trackings id disponíveis" })
+    }
+}
+
+export async function getAssignTrackingsController(req, res) {
+    try {
+        const orderId = req.body.order_id;
+        const freightcarrierId = req.body.freightcarrier_id;
+        const order = await getTrackingByOrder(orderId);
+
+        if (!order.length) {
+            const tracking = await initTracking(orderId, freightcarrierId);
+
+            if (tracking.rowCount >= 1){
+                res.send('Created tracking');
+            }
+        } else {
+            res.send('Order already tracking');
+        }
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Erro ao buscar assigned trackings" })
     }
 }
