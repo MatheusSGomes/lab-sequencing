@@ -3,7 +3,6 @@ import 'dotenv/config'
 import { startConnectionDatabase } from '../connection.js';
 import trackingRouter from './routes/tracking.routes.js';
 import orderRouter from './routes/order.routes.js';
-import routerGenerateTrackings from './cron/generate-trackings.js';
 
 const app = express()
 
@@ -12,7 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/tracking', trackingRouter);
 app.use('/order', orderRouter);
-app.use('', routerGenerateTrackings);
 
 app.get('/health', (req, res) => res.send('OK'));
 

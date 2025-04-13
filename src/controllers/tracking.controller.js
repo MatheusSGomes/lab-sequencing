@@ -1,4 +1,4 @@
-import { getAllTrackings, getAvailableTrackings, getTrackingByOrder, initTracking } from "../../repository.js";
+import { generateTrackings, getAllTrackings, getAvailableTrackings, getNumberOfTrackingsUnassigned, getTrackingByOrder, initTracking } from "../../repository.js";
 
 export async function getAllController(req, res) {
     try {
@@ -29,7 +29,7 @@ export async function getAssignTrackingsController(req, res) {
         if (!order.length) {
             const tracking = await initTracking(orderId, freightcarrierId);
 
-            if (tracking.rowCount >= 1){
+            if (tracking.rowCount >= 1) {
                 res.send('Created tracking');
             }
         } else {
@@ -38,5 +38,29 @@ export async function getAssignTrackingsController(req, res) {
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: "Erro ao buscar assigned trackings" })
+    }
+}
+
+export async function generateTrackingsIdsController(req, res) {
+    try {
+        let desiredNumberGenerateTrackingsIds = 200;
+
+        const number = await getNumberOfTrackingsUnassigned();
+        const numTrackingsUnassigned = number.rows[0].count;
+
+        if (numTrackingsUnassigned <= 200) {
+            const numberToGenerate =
+                (desiredNumberGenerateTrackingsIds - numTrackingsUnassigned);
+
+            desiredNumberGenerateTrackingsIds = numberToGenerate;
+        } else {
+            desiredNumberGenerateTrackingsIds = 0;
+        }
+
+        await generateTrackings(desiredNumberGenerateTrackingsIds);
+        res.send(`Trackings generated`)
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Erro ao buscar gerar novos trackings ids" })
     }
 }
