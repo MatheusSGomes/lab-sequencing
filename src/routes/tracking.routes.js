@@ -1,15 +1,12 @@
 import { Router } from "express";
 import { getAllTrackings, getAvailableTrackings, getTrackingByOrder, initTracking  } from "../../repository.js";
-import { getAllController } from "../controllers/tracking.controller.js";
+import { getAllController, getAvailableTrackingsController } from "../controllers/tracking.controller.js";
 
 const trackingRouter = Router();
 
-trackingRouter.get('/all', (req, res) =>
-    getAllTrackings().then(trackings =>
-        res.send(trackings))
-);
+trackingRouter.get('/all', getAllController);
 
-trackingRouter.get('/available', getAllController);
+trackingRouter.get('/available', getAvailableTrackingsController);
 
 trackingRouter.post('/assign', (req, res) => {
     const orderId = req.body.order_id;
