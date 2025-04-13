@@ -1,4 +1,4 @@
-import { getAllTrackings, getAvailableTrackings } from "../../repository.js";
+import { getAllTrackings, getAvailableTrackings, getTrackingByOrder, initTracking } from "../../repository.js";
 
 export async function getAllController(req, res) {
     try {
@@ -33,7 +33,7 @@ export async function getAssignTrackingsController(req, res) {
                 res.send('Created tracking');
             }
         } else {
-            res.send('Order already tracking');
+            res.send('Order already tracking or no trackings id available');
         }
     } catch (e) {
         console.error(e);

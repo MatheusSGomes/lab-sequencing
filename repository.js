@@ -22,7 +22,7 @@ export async function getTrackingByOrder(order_id) {
 
 export async function initTracking(order_id, freightcarrier_id) {
     const client = await connect();
-    const sql = 'UPDATE tracking SET order_id = $1, freightcarrier_id = $2 WHERE tracking_id is not null AND status = $3;';
+    const sql = 'UPDATE tracking SET order_id = $1, freightcarrier_id = $2 WHERE tracking_id is not null AND order_id IS NULL AND freightcarrier_id IS NULL AND status = $3;';
     const values = [order_id, freightcarrier_id, 'Não atribuído'];
     return await client.query(sql, values);
 }
