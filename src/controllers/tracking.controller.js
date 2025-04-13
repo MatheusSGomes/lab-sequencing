@@ -53,10 +53,10 @@ export async function generateTrackingsIdsController(req, res) {
                 (desiredNumberGenerateTrackingsIds - numTrackingsUnassigned);
 
             desiredNumberGenerateTrackingsIds = numberToGenerate;
+
             await generateTrackings(desiredNumberGenerateTrackingsIds);
             res.send(`Trackings generated`);
         } else {
-            desiredNumberGenerateTrackingsIds = 0;
             res.send(`No trackings need to generate`);
         }
     } catch (e) {
