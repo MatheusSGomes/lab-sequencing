@@ -1,4 +1,4 @@
-import { generateTrackings, getAllTrackings, getAvailableTrackings, getNumberOfTrackingsUnassigned, getTrackingByOrder, initTracking } from "../../repository.js";
+import { generateTrackings, getAllTrackings, getAvailableTrackings, getNumberOfTrackingsUnassigned, getTrackingByOrder, initTracking } from "../repository.js";
 
 export async function getAllController(req, res) {
     try {

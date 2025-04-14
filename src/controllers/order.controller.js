@@ -1,4 +1,4 @@
-import { updateStatusTracking } from "../../repository.js";
+import { updateStatusTracking } from "../repository.js";
 
 export async function updateStatusReceivedController(req, res) {
     try {
