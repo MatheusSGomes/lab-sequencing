@@ -25,3 +25,16 @@ export async function updateStatusTransitController(req, res) {
         res.status(500).json({ error: "Error on update tracking" });
     }
 }
+
+export async function updateStatusDelivered(req, res) {
+    try {
+        const tracking_id = req.body.tracking_id;
+        const status = 'Entregue';
+
+        updateStatusTracking(status, tracking_id).then(tracking =>
+            res.send('Tracking update to delivered')).catch(console.log)
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Error on update tracking" });
+    }
+}
