@@ -1,6 +1,6 @@
 import express from 'express';
 import 'dotenv/config'
-import { startConnectionDatabase } from '../connection.js';
+import { startConnectionDatabase } from './db/connection.js';
 import trackingRouter from './routes/tracking.routes.js';
 import orderRouter from './routes/order.routes.js';
 

@@ -1,4 +1,4 @@
-import { connect } from "./connection.js";
+import { connect } from "./db/connection.js";
 import { v4 as uuidv4 } from 'uuid';
 
 export async function getAllTrackings() {
