@@ -55,7 +55,7 @@ export async function generateTrackingsIdsController(req, res) {
             desiredNumberGenerateTrackingsIds = numberToGenerate;
 
             await generateTrackings(desiredNumberGenerateTrackingsIds);
-            res.send(`Trackings generated`);
+            res.status(200).json({ message: 'Trackings generated' });
         } else {
             res.send(`No trackings need to generate`);
         }
